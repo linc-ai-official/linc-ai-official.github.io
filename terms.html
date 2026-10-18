@@ -59,7 +59,18 @@
     <h2>Contact</h2>
     <p>Questions about these terms? Email us at <a href="mailto:aadit.school@gmail.com">aadit.school@gmail.com</a>.</p>
 
+    <div style="text-align:center;margin-top:26px">
+      <button onclick="returnToLinc()" style="cursor:pointer;border:none;border-radius:14px;padding:13px 26px;font-size:16px;font-weight:800;color:#04121a;background:linear-gradient(90deg,var(--a),var(--b));box-shadow:0 8px 24px rgba(99,224,255,.35)">← Return to Linc AI</button>
+    </div>
+
     <div class="heart">Thanks for using Linc — made with 💚</div>
   </div>
+  <script>
+    function returnToLinc(){
+      try { window.close(); } catch(e){}
+      // if this tab didn't close (it wasn't a pop-up tab), just go back to the app
+      setTimeout(function(){ window.location.href = 'index.html'; }, 120);
+    }
+  </script>
 </body>
 </html>

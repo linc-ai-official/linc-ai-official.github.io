@@ -39,10 +39,11 @@
         font-family:'Segoe UI',system-ui,Arial,sans-serif; -webkit-tap-highlight-color:transparent;
         display:flex; flex-direction:column; }        /* fill the whole screen */
   /* 🎨 background customizer */
-  #bgBtn{ display:block; margin:8px auto 2px; cursor:pointer; border:1.5px solid var(--line);
+  #bgBtn, #excBtn{ display:block; margin:8px auto 2px; cursor:pointer; border:1.5px solid var(--line);
           background:var(--panel2); color:var(--ink); border-radius:999px; padding:7px 16px;
           font-size:13px; font-weight:600; }
-  #bgBtn:hover{ border-color:var(--b); }
+  #bgBtn:hover, #excBtn:hover{ border-color:var(--b); }
+  #excBtn{ background:linear-gradient(90deg,rgba(255,215,0,.16),rgba(255,120,0,.12)); border-color:#ffd24a; }
   #bgLock{ display:none; width:calc(100% - 28px); max-width:520px; margin:8px auto 2px; padding:12px 14px;
            background:linear-gradient(90deg,#3a2e0c,#3a1e0c); border:1px solid #d4a24b; border-radius:14px;
            color:#ffe9b8; font-size:13px; line-height:1.5; text-align:center; }
@@ -61,10 +62,10 @@
   #fbCancel{ cursor:pointer; border:1.5px solid var(--line); background:transparent; color:var(--dim); border-radius:10px; padding:9px 14px; }
   #fbMsg{ margin-top:8px; font-size:13px; color:var(--a); }
   body.game-fs #fbBtn, body.game-fs #fbBox{ display:none !important; }
-  #bgPicker{ display:none; width:calc(100% - 28px); max-width:520px; margin:8px auto 2px; padding:10px;
+  #bgPicker, #excPicker{ display:none; width:calc(100% - 28px); max-width:520px; margin:8px auto 2px; padding:10px;
              background:var(--panel); border:1px solid var(--line); border-radius:16px;
              grid-template-columns:repeat(3,1fr); gap:10px; max-height:46vh; overflow-y:auto; }
-  #bgPicker.open{ display:grid; }
+  #bgPicker.open, #excPicker.open{ display:grid; }
   .bgswatch{ cursor:pointer; height:64px; border-radius:12px; border:2px solid transparent;
              color:#fff; font-size:12px; font-weight:700; text-shadow:0 1px 4px rgba(0,0,0,.8);
              display:flex; align-items:flex-end; justify-content:center; text-align:center; padding:6px; }
@@ -114,12 +115,13 @@
   .ciEmpty{ color:var(--dim); font-size:13px; text-align:center; margin-top:16px; }
   .sbSection{ border-top:2px solid var(--line); margin-top:10px; padding-top:10px; display:flex; flex-direction:column; gap:8px; }
   .sbLabel{ color:var(--dim); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; margin:0 2px 2px; }
-  #chatSidebar #bgBtn, #chatSidebar #fbBtn, #customBtn, #settingsBtn, #helpBtn, #feedBtn{ width:100%; margin:0; display:block; background:var(--panel2); color:var(--ink); border:2px solid var(--line); border-radius:12px; padding:11px; font-size:14px; font-weight:700; cursor:pointer; word-spacing:0.18em; }
+  #chatSidebar #bgBtn, #chatSidebar #fbBtn, #customBtn, #settingsBtn, #helpBtn, #feedBtn, #wcBtn{ width:100%; margin:0; display:block; background:var(--panel2); color:var(--ink); border:2px solid var(--line); border-radius:12px; padding:11px; font-size:14px; font-weight:700; cursor:pointer; word-spacing:0.18em; }
+  #wcBtn{ background:linear-gradient(90deg,rgba(255,170,64,.18),rgba(255,94,98,.18)); border-color:#ffab40 !important; }
   #chatSidebar #bgBtn:hover, #chatSidebar #fbBtn:hover, #customBtn:hover, #settingsBtn:hover, #helpBtn:hover, #feedBtn:hover{ border-color:var(--b); }
   #helpBtn{ background:linear-gradient(90deg,rgba(125,255,178,.16),rgba(99,224,255,.16)); border-color:var(--a) !important; }
   /* 🤖 Linc Help chatbot panel */
-  #helpPanel, #feedPanel{ display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:160; width:min(440px,94vw); height:min(600px,90vh); background:var(--panel); border:2px solid var(--line); border-radius:20px; box-shadow:0 18px 50px rgba(0,0,0,.55); flex-direction:column; overflow:hidden; }
-  #helpPanel.open, #feedPanel.open{ display:flex; }
+  #helpPanel, #feedPanel, #wcPanel{ display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:160; width:min(440px,94vw); height:min(600px,90vh); background:var(--panel); border:2px solid var(--line); border-radius:20px; box-shadow:0 18px 50px rgba(0,0,0,.55); flex-direction:column; overflow:hidden; }
+  #helpPanel.open, #feedPanel.open, #wcPanel.open{ display:flex; }
   #feedList{ flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:9px; }
   .feedItem{ background:var(--panel2); border:1px solid var(--line); border-radius:13px; padding:11px 13px; color:var(--ink); font-size:14.5px; display:flex; gap:9px; align-items:flex-start; }
   .feedItem .fq{ flex:1; word-break:break-word; }
@@ -195,6 +197,7 @@
   .cpBtn:hover{ border-color:var(--b); }
   .cpBtn.sel{ border-color:transparent; background:linear-gradient(90deg,var(--a),var(--b)); color:#06301c; }
   #customPanel #bgBtn{ width:100%; margin:0; }
+  #customPanel #excBtn{ width:100%; margin:8px 0 0; }
   #cpBackdrop{ display:none; position:fixed; inset:0; z-index:115; background:rgba(0,0,0,.5); }
   #cpBackdrop.open{ display:block; }
   /* 🧠 MODEL (brain) PICKER at the top of the chat */
@@ -591,7 +594,7 @@
   <div id="cpBackdrop"></div>
   <div id="customPanel">
     <div class="cpHead"><span>🎨 Customize Linc</span><button id="cpClose" aria-label="Close">✖</button></div>
-    <div class="cpSection"><div class="cpLabel">🖼️ Background</div><button id="bgBtn">🎨 Customize Background</button><input type="file" id="bgUploadInput" accept="image/*" style="display:none"><div id="bgLock"></div><div id="bgPicker"></div></div>
+    <div class="cpSection"><div class="cpLabel">🖼️ Background</div><button id="bgBtn">🎨 Customize Background</button><input type="file" id="bgUploadInput" accept="image/*" style="display:none"><div id="bgLock"></div><div id="bgPicker"></div><button id="excBtn">🏆 Exclusive Backgrounds</button><div id="excPicker"></div></div>
     <div class="cpSection"><div class="cpLabel">🎨 Color Theme</div><div class="cpRow" id="cpThemes"></div></div>
     <div class="cpSection"><div class="cpLabel">💬 Your Bubble Color</div><div class="cpRow" id="cpBubbles"></div></div>
     <div class="cpSection"><div class="cpLabel">🌙 Light / Dark Mode</div><div class="cpRow" id="cpMode"></div></div>
@@ -640,6 +643,14 @@
     </div>
     <div id="feedList"></div>
   </div>
+  <div id="wcPanel">
+    <div class="hpHead">
+      <div class="hpFace"><span class="eye l"></span><span class="eye r"></span><span class="smile"></span></div>
+      <div class="hpTitle" data-noi18n>🎯 Weekly Challenge<small>Solve it for epic rewards! 🏆</small></div>
+      <button id="wcClose" aria-label="Close">✖</button>
+    </div>
+    <div id="wcBody" data-noi18n style="padding:16px;overflow-y:auto;flex:1"></div>
+  </div>
   <button id="sidebarToggle" aria-label="Show your chats" title="Your chats">☰</button>
   <div id="sbBackdrop"></div>
   <aside id="chatSidebar">
@@ -660,6 +671,7 @@
           <button class="chip" data-p="What is 34 x 56?">🧮 34 × 56?</button>
           <button class="chip" data-p="Draw a dragon on a skateboard">🎨 Draw a dragon</button>
           <button class="chip" data-p="Let's play a game!">🎮 Play a game</button>
+          <button class="chip" data-action="wc" data-noi18n>🎯 Weekly Challenge</button>
         </div>
         <input type="file" id="fileIn" accept=".txt,.csv,.md,text/*,image/*" style="display:none">
         <div id="chatRow">
@@ -681,6 +693,8 @@
         <button id="fsExit" aria-label="Exit fullscreen" title="Exit fullscreen">✖</button>
         <div class="gamehead">🎮 <b>Linc's Arcade!</b><br>Pick a game and play against Linc! Win to earn <b>Linc Infinite®</b> ✨ and top the leaderboard. 🏆</div>
         <div id="gamePicker">
+          <div class="gameCatHead">🎯 This Week's Challenge</div>
+          <button class="gamepick" id="wcPick" data-game="__wc__">🎯 Weekly Challenge 🏆</button>
           <div class="gameCatHead">⚡ Action &amp; Reflex</div>
           <button class="gamepick active" data-game="reaction">🎯 Reaction Race</button>
           <button class="gamepick" data-game="whack">🔨 Whack-a-Linc</button>
@@ -1294,6 +1308,7 @@ const pick=a=>a[Math.floor(Math.random()*a.length)];
 // make user text safe to drop into innerHTML (stops < > from breaking the page)
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 let userName=null; try{ userName=localStorage.getItem('linc_name'); }catch(e){}
+let LB_ME_ON=false;   // 🏆 declared early (used by drawBoard at load) — is the current player ON the leaderboard?
 let lastTopic='';   // 🧠 remembers what we were just talking about, so "tell me more" / "how big is it?" work
 // 🎂 birthdays that Reaction-Race winners have added (saved on this computer)
 function getBirthdays(){ try{ return JSON.parse(localStorage.getItem('linc_birthdays')||'[]'); }catch(e){ return []; } }
@@ -1622,6 +1637,7 @@ function fetchGlobalBoard(){
 }
 function drawBoard(list,isGlobal){
   const el=document.getElementById('leaderboard'); if(!el) return;
+  const _mn=myLbName(); if(_mn) LB_ME_ON = Array.isArray(list) && list.some(e=>((e.name||'')+'').toLowerCase()===_mn);   // 🎃 am I on the board? (unlocks the Halloween bg)
   const pros=list.filter(e=>(e.wins||0)>=3).sort((a,b)=>a.ms-b.ms);   // 3+ wins → can hold a TOP 3 medal
   const rookies=list.filter(e=>(e.wins||0)<3).sort((a,b)=>a.ms-b.ms); // 1–2 wins → on the board, below the medals
   let html="<h3>🏆 Today's Race — Fastest Reactions "+(isGlobal?"🌍":"")+"</h3>";
@@ -2611,6 +2627,7 @@ const UI_STRINGS={
   ob_t5_title:"Deep Research 🔬", ob_t5_text:"Turn this on and I'll search lots of sources to give you a big, detailed answer.",
   ob_t6_title:"Pick my brain 🧠", ob_t6_text:"Tap here to choose how I think — super smart, or super fast!",
   ob_t7_title:"The Arcade 🎮", ob_t7_text:"Tap this tab for tons of fun games! Signing in or winning unlocks bonus Games+ games too — and winning some earns you cool prizes!",
+  ob_wc_title:"Weekly Challenge! 🎯", ob_wc_text:"Inside the Arcade there's a Weekly Challenge — a new riddle OR mini-game every single week! Solve it to win a secret exclusive background 🎨, plus a day of Linc Infinite® ✨ and a day of Games+ ➕. A fresh one every week! 🏆",
   ob_t8_title:"Linc Infinite® ✨", ob_t8_text:"Tap Shop to get Linc Infinite® — unlimited chatting, extra-smart brains, custom backgrounds and more!",
   ob_t9_title:"Make Linc yours 🎨", ob_t9_text:"Open this menu, then tap Customize to change my colors, background, your avatar, my personality, your language and more!",
   ob_t10_title:"Settings ⚙️", ob_t10_text:"Here you'll find your account, my voice, what I remember, and ways to save or clear your chats.",
@@ -4392,6 +4409,7 @@ document.getElementById('chatIn').addEventListener('keydown',e=>{ if(e.key==='En
 (function(){ const m=document.getElementById('micBtn'); if(m) m.onclick=toggleVoiceMode; })();   // 🎤 voice chat
 // 💡 example prompt chips — tap to try
 document.querySelectorAll('#chatChips .chip').forEach(ch=>ch.onclick=()=>{
+  if(ch.dataset.action==='wc'){ try{ openWC(); }catch(e){} return; }   // 🎯 this chip opens the Weekly Challenge
   const inp=document.getElementById('chatIn'); if(!inp||inp.disabled) return;
   inp.value=ch.dataset.p; sendChat();
 });
@@ -4496,6 +4514,7 @@ function runCountdown(area, done){
   }, 1000);
 }
 document.querySelectorAll('.gamepick').forEach(b=>b.onclick=()=>{
+  if(b.dataset.game==='__wc__'){ try{ openWC(); }catch(e){} return; }   // 🎯 the Weekly Challenge opens its own panel
   document.querySelectorAll('.gamepick').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');
   currentGame=b.dataset.game;
@@ -4511,7 +4530,7 @@ document.getElementById('playBtn').onclick=launchGame;
   const bd=document.getElementById('sbBackdrop'); if(bd) bd.onclick=closeSidebar;
   const cb=document.getElementById('customBtn'); if(cb) cb.onclick=openCustom;
   const cpc=document.getElementById('cpClose'); if(cpc) cpc.onclick=closeCustom;
-  const cpbd=document.getElementById('cpBackdrop'); if(cpbd) cpbd.onclick=()=>{ closeCustom(); closeSettings(); closeHelp(); closeFeed(); };
+  const cpbd=document.getElementById('cpBackdrop'); if(cpbd) cpbd.onclick=()=>{ closeCustom(); closeSettings(); closeHelp(); closeFeed(); closeWC(); };
   const fdc=document.getElementById('feedClose'); if(fdc) fdc.onclick=closeFeed;
   const stb=document.getElementById('settingsBtn'); if(stb) stb.onclick=openSettings;
   const hb=document.getElementById('helpBtn'); if(hb) hb.onclick=openHelp;
@@ -4550,6 +4569,7 @@ function obSteps(){
     { type:'tour', badge:'🧠', title:T('ob_t6_title',vars), text:T('ob_t6_text',vars), target:'#modelBtn' },
     { type:'tour', badge:'🧠', title:T('ob_t_mem_title',vars), text:T('ob_t_mem_text',vars) },                              // center: memory
     { type:'tour', badge:'🎮', title:T('ob_t7_title',vars), text:T('ob_t7_text',vars), target:'.tab[data-view="game"]' },
+    { type:'tour', badge:'🎯', title:T('ob_wc_title',vars), text:T('ob_wc_text',vars) },
     { type:'tour', badge:'✨', title:T('ob_t8_title',vars), text:T('ob_t8_text',vars), target:'.tab[data-view="shop"]' },
     { type:'tour', badge:'🎨', title:T('ob_t9_title',vars), text:T('ob_t9_text',vars), target:'#customBtn', sidebar:true },
     { type:'tour', badge:'⚙️', title:T('ob_t10_title',vars), text:T('ob_t10_text',vars), target:'#settingsBtn', sidebar:true },
@@ -4560,6 +4580,17 @@ function obSteps(){
 function startOnboarding(){
   OB.step=0; OB.lang=(CUSTOM.language||''); OB.name=(userName||'');
   const o=ensureOnboard(); o.classList.add('open'); renderOnboard();
+}
+// 🪧 shown ONLY to people who moved here from the old linc-ai.netlify.app site
+function showMovedWelcome(){
+  const o=ensureOnboard(); o.classList.add('open'); o.classList.remove('spot');
+  const face="<span class='eye l'></span><span class='eye r'></span><span class='smile'></span>";
+  o.innerHTML="<div class='obCard'><div class='obMascot'>"+face+"<span class='obBadge'>🎉</span></div>"+
+    "<div class='obTitle'>Welcome to Linc AI's new home! 🏡</div>"+
+    "<div class='obSub'>Please press the Continue button below to start the survey to use Linc.</div>"+
+    "<div class='obBtns'><button class='obNext' id='movedGo'>Continue →</button></div></div>";
+  const go=document.getElementById('movedGo');
+  if(go) go.onclick=()=>{ try{ startOnboarding(); }catch(e){} };
 }
 function renderOnboard(){
   const o=ensureOnboard(); const steps=obSteps(); const s=steps[OB.step]; if(!s){ finishOnboard(); return; }
@@ -4788,8 +4819,11 @@ try{ updateFeedBtn(); }catch(e){}   // 🔒 show Live Feed button only for the o
 if(usageOut()) lockChat();
 // 🦉 show the welcome tour ONLY the very first time (brand-new visitors); existing users skip it
 try{
+  const params=new URLSearchParams(location.search||'');
+  const fromNetlify = params.get('from')==='netlify' || /linc-ai\.netlify\.app/i.test(document.referrer||'');   // 🪧 arrived from the old Netlify site?
   const hasHistory = CHATS && CHATS.some(c=>c&&c.messages&&c.messages.length);   // a fresh auto-created empty chat doesn't count
-  if(obDone()){ /* already welcomed */ }
+  if(fromNetlify){ showMovedWelcome(); }                                         // 🪧 welcome the movers, then the survey starts on Continue
+  else if(obDone()){ /* already welcomed */ }
   else if(userName || (typeof isSignedIn==='function'&&isSignedIn()) || hasHistory){ obMarkDone(); }   // returning user → don't interrupt
   else { startOnboarding(); }
 }catch(e){}
@@ -4907,6 +4941,41 @@ function genImageBgs(){
 }
 const IMAGE_BG=genImageBgs();
 const BACKGROUNDS=STATIC_BG.concat(ANIMATED_BG, IMAGE_BG);   // 90 gradients + 30 animated + ~92 pictures = 212 total!
+// 🎃 LIMITED HALLOWEEN BACKGROUND — EXCLUSIVE to players who are ON the leaderboard (win a game to unlock)!
+const HALLOWEEN_BG={ key:'halloween', name:'🎃 Halloween', anim:true, css:'linear-gradient(135deg,#140021 0%,#2b0a00 22%,#ff6a00 48%,#8a2be2 72%,#05000a 100%)' };
+// 🏆 LB_ME_ON is declared near the top (used by drawBoard during load)
+function myLbName(){ try{ return (localStorage.getItem('linc_lb_name')||localStorage.getItem('linc_name')||userName||'').trim().toLowerCase(); }catch(e){ return ((userName||'')+'').trim().toLowerCase(); } }
+function isOnLeaderboard(){ return !!LB_ME_ON; }
+// 🏆🎨 EXCLUSIVE backgrounds — ONLY won from the Weekly Challenge (a random one each win)!
+const EXCLUSIVE_BGS=[
+  { key:'exc_galaxy',  name:'🌌 Galaxy',      anim:true, css:'linear-gradient(135deg,#0b0033,#3a0ca3,#7209b7,#4361ee,#02010a)' },
+  { key:'exc_lava',    name:'🌋 Lava',        anim:true, css:'linear-gradient(135deg,#1a0000,#5c0a0a,#ff4800,#ffb700,#1a0000)' },
+  { key:'exc_aurora',  name:'🌠 Aurora',      anim:true, css:'linear-gradient(135deg,#001510,#00ff87,#60efff,#0061ff,#000814)' },
+  { key:'exc_candy',   name:'🍬 Candy',       anim:true, css:'linear-gradient(135deg,#ff6ec7,#ffc3a0,#a1ffce,#faffd1,#ff9a9e)' },
+  { key:'exc_gold',    name:'👑 Gold',        anim:true, css:'linear-gradient(135deg,#2b1700,#8a6d00,#ffd700,#fff3b0,#2b1700)' },
+  { key:'exc_cyber',   name:'🤖 Cyber',       anim:true, css:'linear-gradient(135deg,#02001a,#ff00e5,#00fff2,#7a00ff,#02001a)' },
+  { key:'exc_ocean',   name:'🌊 Deep Ocean',  anim:true, css:'linear-gradient(135deg,#000814,#003566,#0077b6,#00b4d8,#001219)' },
+  { key:'exc_sunset',  name:'🌅 Sunset',      anim:true, css:'linear-gradient(135deg,#0d1b2a,#e63946,#f77f00,#fcbf49,#2a0a00)' },
+  { key:'exc_rainbow', name:'🌈 Rainbow',     anim:true, css:'linear-gradient(135deg,#ff2d2d,#ff9a00,#ffe600,#2ecc71,#2d9bff,#b14bff)' },
+  { key:'exc_sakura',  name:'🌸 Sakura',      anim:true, css:'linear-gradient(135deg,#2a1526,#ff8fb1,#ffd1dc,#c86b98,#1a0e18)' },
+  { key:'exc_thunder', name:'⚡ Thunder',     anim:true, css:'linear-gradient(135deg,#05060f,#1b2a4a,#9db4ff,#fff27a,#05060f)' },
+  { key:'exc_frost',   name:'❄️ Frost',       anim:true, css:'linear-gradient(135deg,#04121a,#5be0ff,#b3f5ff,#dff9ff,#0a2a3a)' },
+  { key:'exc_tropical',name:'🌴 Tropical',    anim:true, css:'linear-gradient(135deg,#002b36,#00c2a8,#7fff6a,#ffe24a,#ff7b54)' },
+  { key:'exc_unicorn', name:'🦄 Unicorn',     anim:true, css:'linear-gradient(135deg,#ffd1f5,#c3a0ff,#a0d8ff,#b5ffd0,#fff0a0)' },
+  { key:'exc_nebula',  name:'🪐 Nebula',      anim:true, css:'linear-gradient(135deg,#0a0020,#5a189a,#ff4d9d,#4cc9f0,#03000f)' },
+  { key:'exc_forest',  name:'🌲 Forest',      anim:true, css:'linear-gradient(135deg,#02140a,#1b5e20,#4caf50,#a5d66a,#0a2a12)' },
+  { key:'exc_dragon',  name:'🐉 Dragon',      anim:true, css:'linear-gradient(135deg,#1a0000,#8b0000,#ff3d00,#2b0a0a,#000000)' },
+  { key:'exc_retro',   name:'👾 Retro',       anim:true, css:'linear-gradient(135deg,#0a001a,#ff2975,#f222ff,#00f0ff,#120458)' }
+];
+function unlockedExclusives(){ try{ return JSON.parse(localStorage.getItem('linc_exc_bgs')||'[]'); }catch(e){ return []; } }
+function hasExclusive(key){ return unlockedExclusives().indexOf(key)>=0; }
+function addExclusive(key){ try{ const u=unlockedExclusives(); if(u.indexOf(key)<0){ u.push(key); localStorage.setItem('linc_exc_bgs', JSON.stringify(u)); } }catch(e){} }
+function excByKey(key){ return EXCLUSIVE_BGS.find(b=>b.key===key)||null; }
+function randomExclusiveReward(){   // 🎁 a random exclusive they don't own yet (or any, if they own them all)
+  const owned=unlockedExclusives(); let pool=EXCLUSIVE_BGS.filter(b=>owned.indexOf(b.key)<0);
+  if(!pool.length) pool=EXCLUSIVE_BGS;
+  const pick=pool[Math.floor(Math.random()*pool.length)]; addExclusive(pick.key); return pick;
+}
 function getBg(){ try{ return localStorage.getItem('linc_bg')||'space'; }catch(e){ return 'space'; } }
 function applyBgStyle(b){
   document.body.style.background=b.css;
@@ -4918,7 +4987,7 @@ function applyBgStyle(b){
 // 📷 the user's own uploaded photo background (stored as a data URL)
 function customBgData(){ try{ return localStorage.getItem('linc_bg_custom')||''; }catch(e){ return ''; } }
 function customBgObj(){ const d=customBgData(); return d ? {key:'custom', image:true, css:'linear-gradient(rgba(8,10,22,.42),rgba(8,10,22,.55)), url("'+d+'")'} : null; }
-function bgByKey(key){ if(key==='custom') return customBgObj()||BACKGROUNDS[0]; return BACKGROUNDS.find(x=>x.key===key)||BACKGROUNDS[0]; }
+function bgByKey(key){ if(key==='halloween') return HALLOWEEN_BG; if(key&&key.indexOf('exc_')===0) return excByKey(key)||BACKGROUNDS[0]; if(key==='custom') return customBgObj()||BACKGROUNDS[0]; return BACKGROUNDS.find(x=>x.key===key)||BACKGROUNDS[0]; }
 function applyBg(key){   // pick + remember (only Linc Infinite® members get here)
   const b=bgByKey(key);
   applyBgStyle(b);
@@ -4926,7 +4995,10 @@ function applyBg(key){   // pick + remember (only Linc Infinite® members get he
 }
 // 💛 backgrounds are a Linc Infinite® perk: members keep their saved pick, everyone else gets the default
 function refreshBg(){
-  const key = isInfinityActive() ? getBg() : 'space';
+  const saved=getBg();
+  const excUnlocked = (saved && saved.indexOf('exc_')===0 && hasExclusive(saved));   // 🏆 earned from the Weekly Challenge — no Infinity needed!
+  const halloweenUnlocked = (saved==='halloween' && isOnLeaderboard());               // 🎃 leaderboard-exclusive
+  const key = (isInfinityActive() || excUnlocked || halloweenUnlocked) ? saved : 'space';
   applyBgStyle(bgByKey(key));
 }
 // 📷 turn an uploaded image file into a saved background (shrinks it first so it fits in storage)
@@ -4976,6 +5048,41 @@ function buildBgPicker(){
   else { up.textContent='📷 Upload'; }
   up.onclick=()=>{ const inp=document.getElementById('bgUploadInput'); if(inp) inp.click(); };
   p.appendChild(up);
+  // 🎃 LIMITED Halloween background — ONLY for players on the leaderboard!
+  addHeader('🎃 Halloween — Leaderboard Exclusive!');
+  (function(){
+    const unlocked=isOnLeaderboard(), h=HALLOWEEN_BG;
+    const el=document.createElement('div');
+    el.className='bgswatch bgswatch-anim'+(cur===h.key?' sel':'');
+    el.style.background=h.css; el.style.backgroundSize='300% 300%';
+    if(unlocked){ el.textContent=h.name; el.title='🎃 You earned it — Happy Halloween!'; }
+    else { el.textContent='🎃 🔒'; el.style.opacity='0.5'; el.style.cursor='help'; el.title='Win a game to get on the leaderboard and unlock this!'; }
+    el.onclick=()=>{
+      if(!isOnLeaderboard()){ alert("🎃 The Halloween background is LEADERBOARD-EXCLUSIVE! 👻\n\n🏆 Win a game in the Arcade to get on the leaderboard — then it unlocks for you!"); return; }
+      applyBg(h.key); [...p.querySelectorAll('.bgswatch')].forEach(c=>c.classList.remove('sel')); el.classList.add('sel');
+    };
+    p.appendChild(el);
+  })();
+  // 🏆 Challenge Rewards — exclusive backgrounds won from the Weekly Challenge
+  (function(){
+    const owned=unlockedExclusives();
+    addHeader('🏆 Challenge Rewards ('+owned.length+'/'+EXCLUSIVE_BGS.length+')');
+    EXCLUSIVE_BGS.filter(b=>owned.indexOf(b.key)>=0).forEach(b=>{
+      const el=document.createElement('div');
+      el.className='bgswatch bgswatch-anim'+(cur===b.key?' sel':'');
+      el.style.background=b.css; el.style.backgroundSize='300% 300%'; el.textContent=b.name;
+      el.onclick=()=>{ applyBg(b.key); [...p.querySelectorAll('.bgswatch')].forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); };
+      p.appendChild(el);
+    });
+    if(owned.length<EXCLUSIVE_BGS.length){   // one "mystery" tile for the rewards still to be won
+      const el=document.createElement('div');
+      el.className='bgswatch'; el.style.background='repeating-linear-gradient(45deg,#1a2238,#1a2238 10px,#0e1530 10px,#0e1530 20px)';
+      el.textContent='❓ ???'; el.style.opacity='0.65'; el.style.cursor='help';
+      el.title='Win the Weekly Challenge to unlock a random exclusive background!';
+      el.onclick=()=>{ alert("🏆 Exclusive backgrounds are won from the 🎯 WEEKLY CHALLENGE!\n\nSolve it to win a random one — plus Linc Infinite® + Games+! 🎉"); };
+      p.appendChild(el);
+    }
+  })();
   addHeader('🎨 Backgrounds');
   STATIC_BG.forEach(addSwatch);
   addHeader('✨ Animated Backgrounds');
@@ -4984,6 +5091,34 @@ function buildBgPicker(){
   IMAGE_BG.forEach(addSwatch);
 }
 refreshBg(); updateBgBtn();   // show the right background + button on load
+// 🏆 EXCLUSIVE BACKGROUNDS picker — shows what you've EARNED (no Linc Infinite® needed, you worked for these!)
+function buildExcPicker(){
+  const p=document.getElementById('excPicker'); if(!p) return; const cur=getBg(); p.innerHTML='';
+  const addSwatch=(b)=>{
+    const el=document.createElement('div');
+    el.className='bgswatch bgswatch-anim'+(b.key===cur?' sel':'');
+    el.style.background=b.css; el.style.backgroundSize='300% 300%'; el.textContent=b.name;
+    el.onclick=()=>{ applyBg(b.key); [...p.querySelectorAll('.bgswatch')].forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); };
+    p.appendChild(el);
+  };
+  const items=[];
+  if(isOnLeaderboard()) items.push(HALLOWEEN_BG);                            // 🎃 leaderboard-exclusive
+  EXCLUSIVE_BGS.filter(b=>hasExclusive(b.key)).forEach(b=>items.push(b));    // 🏆 won from the Weekly Challenge
+  if(!items.length){
+    const msg=document.createElement('div'); msg.style.cssText='grid-column:1/-1;text-align:center;color:var(--dim);font-size:13px;padding:12px;line-height:1.6';
+    msg.innerHTML="🏆 No exclusive backgrounds yet!<br>Win the <b>🎯 Weekly Challenge</b> to earn them — and they work even <b>without</b> Linc Infinite®! 🎉";
+    p.appendChild(msg);
+  } else { items.forEach(addSwatch); }
+}
+(function(){ const btn=document.getElementById('excBtn'); if(!btn) return;
+  btn.onclick=()=>{
+    const p=document.getElementById('excPicker'); if(!p) return;
+    const willOpen=!p.classList.contains('open');
+    if(willOpen){ buildExcPicker();
+      try{ fetchGlobalBoard().then(list=>{ if(Array.isArray(list)){ const mn=myLbName(); const on=!!mn && list.some(e=>((e.name||'')+'').toLowerCase()===mn); if(on!==LB_ME_ON){ LB_ME_ON=on; if(p.classList.contains('open')) buildExcPicker(); } } }); }catch(e){}
+    }
+    p.classList.toggle('open');
+  }; })();
 (function(){ const up=document.getElementById('bgUploadInput'); if(up) up.onchange=handleBgUpload; })();   // 📷 wire the photo upload
 (function(){ const btn=document.getElementById('bgBtn'); if(!btn) return;
   btn.onclick=()=>{
@@ -4994,27 +5129,143 @@ refreshBg(); updateBgBtn();   // show the right background + button on load
       return;
     }
     if(lock) lock.classList.remove('open');
-    if(!p.dataset.built){ buildBgPicker(); p.dataset.built='1'; }
+    const willOpen=!p.classList.contains('open');
+    if(willOpen){
+      buildBgPicker();   // rebuild on open so the 🎃 Halloween lock shows the current leaderboard status
+      // 🏆 also double-check the live board, and re-build if the player's status changed
+      try{ fetchGlobalBoard().then(list=>{ if(Array.isArray(list)){ const mn=myLbName(); const on=!!mn && list.some(e=>((e.name||'')+'').toLowerCase()===mn); if(on!==LB_ME_ON){ LB_ME_ON=on; if(p.classList.contains('open')) buildBgPicker(); } } }); }catch(e){}
+    }
     p.classList.toggle('open');
   }; })();
 
-// ================= 🖥️ ALWAYS FULLSCREEN (goes fullscreen on the first tap; re-enters if you exit) =================
-// (browsers block auto-fullscreen on load for safety — it MUST start from a tap/click)
-(function(){
-  let armed=true;
-  function goFS(){
-    if(!armed || document.fullscreenElement || document.webkitFullscreenElement) return;
-    const el=document.documentElement;
-    const req=el.requestFullscreen||el.webkitRequestFullscreen||el.webkitRequestFullScreen||el.mozRequestFullScreen||el.msRequestFullscreen;
-    if(req){ try{ req.call(el); armed=false; }catch(e){} }
+// ================= 🎯 WEEKLY CHALLENGE =================
+// A new riddle each week (same for everyone, worldwide). Solve it → a RANDOM exclusive background + 1 day Linc Infinite® + 1 day Games+!
+const WEEKLY_CHALLENGES=[
+  { q:"I have cities but no houses, mountains but no trees, and water but no fish. What am I?", a:["a map","map"] },
+  { q:"What has to be broken before you can use it?", a:["an egg","egg"] },
+  { q:"What has hands but cannot clap?", a:["a clock","clock","watch"] },
+  { q:"What gets wetter the more it dries?", a:["a towel","towel"] },
+  { q:"What has a neck but no head?", a:["a bottle","bottle"] },
+  { q:"What has many keys but can't open a single lock?", a:["a piano","piano","keyboard"] },
+  { q:"What goes up but never comes down?", a:["your age","age"] },
+  { q:"I'm tall when I'm young and short when I'm old. What am I?", a:["a candle","candle"] },
+  { q:"What has one eye but cannot see?", a:["a needle","needle"] },
+  { q:"What can you catch but not throw?", a:["a cold","cold"] },
+  { q:"A farmer has 17 sheep and all but 9 run away. How many are left?", a:["9","nine"] },
+  { q:"What 5-letter word becomes shorter when you add two letters to it?", a:["short"] },
+  { q:"What has a thumb and four fingers but is not alive?", a:["a glove","glove"] },
+  { q:"What can travel around the world while staying in one corner?", a:["a stamp","stamp"] },
+  { q:"What has words but never speaks?", a:["a book","book"] },
+  { q:"What runs but never walks, and has a bed but never sleeps?", a:["a river","river"] },
+  { q:"What belongs to you, but other people use it more than you do?", a:["your name","name"] },
+  { q:"The more you take, the more you leave behind. What am I?", a:["footsteps","footprints","steps"] },
+  { q:"What gets bigger the more you take away from it?", a:["a hole","hole"] },
+  { q:"What building has the most stories?", a:["a library","library"] },
+  { q:"What is full of holes but still holds water?", a:["a sponge","sponge"] },
+  { q:"I'm light as a feather, yet the strongest person can't hold me for more than a minute. What am I?", a:["breath","your breath"] },
+  { q:"What can fill a room but takes up no space?", a:["light"] },
+  { q:"If you drop me I'm sure to crack, but smile at me and I'll smile back. What am I?", a:["a mirror","mirror"] },
+  { q:"What word is spelled wrong in every dictionary?", a:["wrong"] },
+  { q:"What breaks when you say it?", a:["silence"] },
+  { q:"What has a head and a tail but no body?", a:["a coin","coin"] },
+  { q:"A man was out in the rain with no umbrella or hat, but not one hair on his head got wet. How?", a:["he was bald","bald","he is bald","he had no hair","no hair"] },
+  { q:"What month of the year has 28 days?", a:["all","all of them","every month","all months","all 12","twelve"] },
+  { type:'game', game:'oddone' },
+  { type:'game', game:'quickmath' }
+];
+function wcWeekIdx(){ return Math.floor(Date.now()/(7*24*3600*1000)); }   // same week number for everyone, worldwide
+function thisWeekChallenge(){ return WEEKLY_CHALLENGES[ wcWeekIdx() % WEEKLY_CHALLENGES.length ]; }
+function wcSolvedThisWeek(){ try{ return parseInt(localStorage.getItem('linc_wc_solved')||'-999',10)===wcWeekIdx(); }catch(e){ return false; } }
+function wcNorm(s){ return (s||'').toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ').trim().replace(/^(a|an|the) /,''); }
+function solveWeeklyChallenge(){
+  try{ localStorage.setItem('linc_wc_solved', String(wcWeekIdx())); }catch(e){}
+  const bg=randomExclusiveReward();   // 🎨 random exclusive background
+  grantInfinity(1);                   // ✨ 1 day Linc Infinite®
+  grantGamesPlus(1);                  // ➕ 1 day Games+
+  try{ refreshAll(); }catch(e){}
+  return bg;
+}
+function renderWC(){
+  const body=document.getElementById('wcBody'); if(!body) return;
+  if(!isSignedIn()){ body.innerHTML="<div style='text-align:center;padding:24px 10px'><div style='font-size:40px'>🔒</div><p style='color:var(--ink);font-weight:700'>Sign in to play!</p><p style='color:var(--dim);font-size:14px;line-height:1.6'>Sign in (at the top of the page) to take the Weekly Challenge and win rewards. It's free — just your name! 👤</p></div>"; return; }
+  const ch=thisWeekChallenge();
+  if(wcSolvedThisWeek()){
+    body.innerHTML="<div style='text-align:center;padding:14px 6px'><div style='font-size:52px'>🏆</div><h3 style='color:var(--a);margin:8px 0'>Solved this week!</h3><p style='color:var(--ink)'>You already won this week's rewards. 🎉</p><p style='color:var(--dim);font-size:14px;line-height:1.6'>🗓️ Come back <b>next week</b> for a brand-new challenge!<br>🎨 Find your exclusive background in <b>Customize → Background → 🏆 Challenge Rewards</b>.</p></div>";
+    return;
   }
-  document.addEventListener('pointerdown', goFS);
-  document.addEventListener('keydown', goFS);
-  // if the user exits fullscreen (Esc), re-arm so the next tap puts it back
-  const onChange=()=>{ if(!document.fullscreenElement && !document.webkitFullscreenElement) armed=true; };
-  document.addEventListener('fullscreenchange', onChange);
-  document.addEventListener('webkitfullscreenchange', onChange);
-})();
+  if(ch.type==='game'){   // 🎮 this week's challenge is a mini-game (NOT in the arcade)!
+    if(ch.game==='oddone') return wcGameOddOne();
+    if(ch.game==='quickmath') return wcGameQuickMath();
+  }
+  body.innerHTML=
+    "<div style='text-align:center;margin-bottom:12px'><div style='font-size:42px'>🎯</div><div style='color:var(--dim);font-size:13.5px'>Solve this week's riddle!</div></div>"+
+    "<div style='background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:16.5px;line-height:1.55;margin-bottom:12px'>"+esc(ch.q)+"</div>"+
+    "<input id='wcAnswer' placeholder='Type your answer…' autocomplete='off' style='width:100%;box-sizing:border-box;font-size:16px;padding:12px 14px;background:#0c1226;border:2px solid var(--line);color:var(--ink);border-radius:12px;outline:none;margin-bottom:9px'>"+
+    "<button id='wcSubmit' style='width:100%;cursor:pointer;border:none;border-radius:12px;padding:13px;font-size:16px;font-weight:800;color:#04121a;background:linear-gradient(90deg,var(--a),var(--b))'>Submit Answer ✅</button>"+
+    "<div id='wcMsg' style='text-align:center;margin-top:10px;font-weight:700;min-height:20px;font-size:14.5px'></div>"+
+    "<div style='margin-top:14px;background:#0b1226;border:1px solid var(--line);border-radius:12px;padding:13px;font-size:13.5px;color:var(--dim);line-height:1.7'>🎁 <b style='color:var(--ink)'>Solve it to WIN:</b><br>🎨 A random <b>exclusive background</b><br>✨ <b>1 day</b> of Linc Infinite®<br>➕ <b>1 day</b> of Games+</div>";
+  const inp=document.getElementById('wcAnswer'), btn=document.getElementById('wcSubmit'), msg=document.getElementById('wcMsg');
+  const tryAnswer=()=>{
+    const val=wcNorm(inp&&inp.value); if(!val){ return; }
+    const ok=ch.a.some(a=>wcNorm(a)===val);
+    if(ok){ wcShowWin(); }
+    else { if(msg){ msg.style.color='#ff9d9d'; msg.textContent='🤔 Not quite — try again!'; } }
+  };
+  if(btn) btn.onclick=tryAnswer;
+  if(inp){ inp.focus(); inp.onkeydown=(e)=>{ if(e.key==='Enter') tryAnswer(); }; }
+}
+// 🏆 the shared "you won!" screen (used by riddles AND mini-games)
+function wcShowWin(){
+  const body=document.getElementById('wcBody'); if(!body) return;
+  const bg=solveWeeklyChallenge();
+  body.innerHTML="<div style='text-align:center;padding:8px 4px'><div style='font-size:58px'>🎉</div><h3 style='color:var(--a);margin:6px 0'>YOU WON! 🏆</h3><p style='color:var(--ink);font-size:15px;margin:4px 0'>You won:</p><div style='background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0;font-size:15px;line-height:1.9'>🎨 Exclusive background: <b>"+esc(bg.name)+"</b><br>✨ <b>1 day</b> of Linc Infinite®<br>➕ <b>1 day</b> of Games+</div><button id='wcUseBg' style='cursor:pointer;border:none;border-radius:12px;padding:12px 22px;font-weight:800;color:#04121a;background:linear-gradient(90deg,var(--a),var(--b))'>🎨 Use my new background!</button><p style='color:var(--dim);font-size:13px;margin-top:14px'>🗓️ New challenge next week!</p></div>";
+  const ub=document.getElementById('wcUseBg'); if(ub) ub.onclick=()=>{ applyBg(bg.key); closeWC(); };
+}
+// 🔍 MINI-GAME: Odd One Out — tap the emoji that's different (gets harder each round)
+function wcGameOddOne(){
+  const body=document.getElementById('wcBody'); if(!body) return;
+  const rounds=[{n:3,base:'🐶',odd:'🐱'},{n:4,base:'🍎',odd:'🍅'},{n:5,base:'🌝',odd:'🌚'}];
+  let r=0;
+  const renderRound=()=>{
+    const cfg=rounds[r], total=cfg.n*cfg.n, oddIdx=Math.floor(Math.random()*total);
+    let grid='';
+    for(let i=0;i<total;i++){ grid+="<button class='ooCell' data-i='"+i+"' style='font-size:26px;border:none;background:transparent;cursor:pointer;padding:5px;line-height:1'>"+(i===oddIdx?cfg.odd:cfg.base)+"</button>"; }
+    body.innerHTML="<div style='text-align:center'><div style='font-size:34px'>🔍</div><h3 style='color:var(--a);margin:6px 0'>Odd One Out!</h3><p style='color:var(--dim);font-size:14px'>Round "+(r+1)+" of "+rounds.length+" — tap the one that's different!</p><div style='display:grid;grid-template-columns:repeat("+cfg.n+",1fr);gap:4px;max-width:300px;margin:12px auto;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px'>"+grid+"</div><div id='ooMsg' style='min-height:20px;font-weight:700;font-size:14px'></div></div>";
+    body.querySelectorAll('.ooCell').forEach(b2=>{ b2.onclick=()=>{
+      if(parseInt(b2.getAttribute('data-i'),10)===oddIdx){ r++; if(r>=rounds.length) wcShowWin(); else renderRound(); }
+      else { const m=document.getElementById('ooMsg'); if(m){ m.style.color='#ff9d9d'; m.textContent='❌ Nope — look closely!'; } }
+    }; });
+  };
+  renderRound();
+}
+// ⚡ MINI-GAME: Quick Math — get 5 right to win
+function wcGameQuickMath(){
+  const body=document.getElementById('wcBody'); if(!body) return;
+  const NEED=5; let got=0, cur=null;
+  const render=()=>{
+    const ops=['+','-','×'], op=ops[Math.floor(Math.random()*3)];
+    let a=Math.floor(Math.random()*12)+1, b=Math.floor(Math.random()*12)+1;
+    if(op==='-'&&b>a){ const t=a; a=b; b=t; }
+    const ans = op==='+'?a+b : op==='-'?a-b : a*b;
+    cur={ text:a+' '+op+' '+b, ans:ans };
+    body.innerHTML="<div style='text-align:center'><div style='font-size:34px'>⚡</div><h3 style='color:var(--a);margin:6px 0'>Quick Math!</h3><p style='color:var(--dim);font-size:14px'>Get <b>"+NEED+"</b> right to win! ("+got+"/"+NEED+")</p><div style='font-size:36px;font-weight:800;margin:14px 0'>"+cur.text+" = ?</div><input id='qmAns' type='number' inputmode='numeric' placeholder='?' style='width:150px;box-sizing:border-box;font-size:22px;text-align:center;padding:10px;background:#0c1226;border:2px solid var(--line);color:var(--ink);border-radius:12px;outline:none'><br><button id='qmGo' style='margin-top:12px;cursor:pointer;border:none;border-radius:12px;padding:11px 26px;font-weight:800;color:#04121a;background:linear-gradient(90deg,var(--a),var(--b))'>Check ✅</button><div id='qmMsg' style='min-height:22px;font-weight:700;font-size:14px;margin-top:8px'></div></div>";
+    const inp=document.getElementById('qmAns'), go=document.getElementById('qmGo'), msg=document.getElementById('qmMsg');
+    const check=()=>{ if(inp.value==='') return; const v=parseInt(inp.value,10);
+      if(v===cur.ans){ got++; if(got>=NEED) wcShowWin(); else render(); }
+      else { if(msg){ msg.style.color='#ff9d9d'; msg.textContent='❌ It was '+cur.ans+' — here comes a new one!'; } setTimeout(render, 1300); }
+    };
+    if(go) go.onclick=check; if(inp){ inp.focus(); inp.onkeydown=(e)=>{ if(e.key==='Enter') check(); }; }
+  };
+  render();
+}
+function openWC(){ const p=document.getElementById('wcPanel'), b=document.getElementById('cpBackdrop'); if(p)p.classList.add('open'); if(b)b.classList.add('open'); renderWC(); try{ if(window.innerWidth<720) closeSidebar(); }catch(e){} }
+function closeWC(){ const p=document.getElementById('wcPanel'), b=document.getElementById('cpBackdrop'); if(p)p.classList.remove('open'); if(b)b.classList.remove('open'); }
+(function(){ const btn=document.getElementById('wcBtn'); if(btn) btn.onclick=openWC; const c=document.getElementById('wcClose'); if(c) c.onclick=closeWC; })();
+
+// ================= 🖥️ (removed) auto-fullscreen-on-every-tap =================
+// It forced fullscreen on every pointerdown AND keydown and re-armed on exit, which caused a
+// fullscreen flicker loop while typing. Removed so typing works normally. The Arcade games still
+// have their own fullscreen (goGameFS / #fsExit), and sign-in still uses goFullscreenPlain().
 // ================= 💬 FEEDBACK BUTTON (emails feedback to Aadit via Formspree) =================
 (function(){
   const btn=document.getElementById('fbBtn'), box=document.getElementById('fbBox');
