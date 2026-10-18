@@ -62,7 +62,15 @@
     <h2>Contact</h2>
     <p>Questions about privacy? Email us at <a href="mailto:aadit.school@gmail.com">aadit.school@gmail.com</a>.</p>
 
-    <div style="text-align:center;margin-top:26px">
+    <div id="agreeBox" style="margin-top:26px;background:#0b1226;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <label id="agreeLabel" style="display:inline-flex;align-items:center;gap:10px;font-size:15.5px;color:var(--ink);cursor:not-allowed;opacity:.6">
+        <input type="checkbox" id="agreeChk" disabled style="width:20px;height:20px;flex:none;accent-color:var(--a);cursor:inherit">
+        <span>I have read and agree to the Privacy Policy</span>
+      </label>
+      <div id="agreeMsg" style="margin-top:9px;font-size:13.5px;color:var(--dim)">⏳ Please take a moment to read — you can agree in <b id="cdNum">10</b>s…</div>
+    </div>
+
+    <div style="text-align:center;margin-top:18px">
       <button onclick="returnToLinc()" style="cursor:pointer;border:none;border-radius:14px;padding:13px 26px;font-size:16px;font-weight:800;color:#04121a;background:linear-gradient(90deg,var(--a),var(--b));box-shadow:0 8px 24px rgba(99,224,255,.35)">← Return to Linc AI</button>
     </div>
 
@@ -73,6 +81,16 @@
       try { window.close(); } catch(e){}
       setTimeout(function(){ window.location.href = 'index.html'; }, 120);
     }
+    (function(){
+      var KEY='linc_agree_privacy';
+      var chk=document.getElementById('agreeChk'), label=document.getElementById('agreeLabel'), msg=document.getElementById('agreeMsg'), num=document.getElementById('cdNum');
+      function markAgreed(){ chk.checked=true; chk.disabled=true; label.style.opacity='1'; label.style.cursor='default'; msg.innerHTML="✅ Thanks — you've agreed to the Privacy Policy!"; msg.style.color='var(--a)'; try{ localStorage.setItem(KEY,'1'); }catch(e){} }
+      var already=false; try{ already=localStorage.getItem(KEY)==='1'; }catch(e){}
+      if(already){ markAgreed(); return; }
+      var left=10;
+      var iv=setInterval(function(){ left--; if(left<=0){ clearInterval(iv); chk.disabled=false; label.style.opacity='1'; label.style.cursor='pointer'; msg.innerHTML="👇 You can now check the box to agree!"; msg.style.color='var(--b)'; } else { if(num) num.textContent=left; } }, 1000);
+      chk.addEventListener('change', function(){ if(chk.checked && !chk.disabled){ markAgreed(); } });
+    })();
   </script>
 </body>
 </html>
